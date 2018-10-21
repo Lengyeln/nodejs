@@ -191,7 +191,7 @@ var fuggvenyek = {
                         limit: 5000
                     });
                     Promise.all([csaladPromise,adatokPromise]).then((values)=>{
-                        ///console.log("VALUE",values[0]);
+                        //console.log("VALUE",values[0]);
                         if(values[0]) szemelyadatok.csaladtagok=values[0].dataValues;
                         if(values[1]) szemelyadatok.nev=values[1].dataValues;
                         resolve(szemelyadatok);

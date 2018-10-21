@@ -2,9 +2,20 @@ module.exports = function (express, app, fuggvenyek, initDb) {
 
     app.get('/', (req, res) => res.send("hello"))
 
-    app.use(express.static(__dirname))
+    let allowCrossDomain = function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        next();
+    };
 
-    app.listen(port=3002, () => console.log('Example app listening on port '+port+'!'))
+
+    app.use(allowCrossDomain);
+
+
+    app.use(express.static(__dirname));
+
+    app.listen(port=3002, () => console.log('Example app listening on port '+port+'!'));
 
     app.get('/add/:nev/:cim/:szam/:csaladtag', function (request, response) {
         var nev = request.params.nev;
