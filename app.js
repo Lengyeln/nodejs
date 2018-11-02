@@ -161,6 +161,7 @@ var fuggvenyek = {
             });
         },
 
+
     /*nevjegy:
         function nevjegy() {
             return new Promise((resolve,reject)=>{
@@ -186,6 +187,7 @@ var fuggvenyek = {
                 })
             });
         },*/
+    //
 
     nevjegy:
         function nevjegy() {
