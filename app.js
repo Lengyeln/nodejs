@@ -142,6 +142,7 @@ var fuggvenyek = {
                     limit: 5000
                 }).then((selectedRow) => {
                     szemelyadatok=selectedRow.dataValues;
+                    console.log(szemelyadatok);
                     var csaladPromise = db.models.Csalad.findOne({
                         where: {referencId: selectedRow.dataValues.id},
                         limit: 5000
@@ -160,17 +161,57 @@ var fuggvenyek = {
             });
         },
 
+    /*nevjegy:
+        function nevjegy() {
+            return new Promise((resolve,reject)=>{
+                var szemelyadatok=[];
+                db.models.Adatok.findOne({
+                    limit: 5000
+                }).then((selectedRow) => {
+                    szemelyadatok=selectedRow.dataValues;
+                    var csaladPromise = db.models.Csalad.findOne({
+                        where: {referencId: selectedRow.dataValues.id},
+                        limit: 5000
+                    });
+                    var szamokPromise=db.models.Szamok.findOne({
+                        where: {referencId: selectedRow.dataValues.id},
+                        limit: 5000
+                    });
+                    Promise.all([csaladPromise,szamokPromise]).then((values)=>{
+                        ///console.log("VALUE",values[0]);
+                        if(values[0]) szemelyadatok.csaladtagok=values[0].dataValues;
+                        if(values[1]) szemelyadatok.szamok=values[1].dataValues;
+                        resolve(szemelyadatok);
+                    });
+                })
+            });
+        },*/
+
     nevjegy:
         function nevjegy() {
-        return new Promise((resolve, reject)=>{
-            var szemelyadatok = [];
-            db.models.Adatok.findOne({
-
-            }).then((selectedRow) => {
-                szemelyadatok = selectedRow.dataValues;
-                resolve(szemelyadatok);
-            })
-        })
+            return new Promise((resolve,reject)=>{
+                var szemelyadatok=[];
+                db.models.Adatok.findOne({
+                    limit: 5000
+                }).then((selectedRow) => {
+                    szemelyadatok=selectedRow.dataValues;
+                    console.log(szemelyadatok);
+                    var csaladPromise = db.models.Csalad.findOne({
+                        where: {referencId: selectedRow.dataValues.id},
+                        limit: 5000
+                    });
+                    var szamokPromise=db.models.Szamok.findOne({
+                        where: {referencId: selectedRow.dataValues.id},
+                        limit: 5000
+                    });
+                    Promise.all([csaladPromise,szamokPromise]).then((values)=>{
+                        ///console.log("VALUE",values[0]);
+                        if(values[0]) szemelyadatok.csaladtagok=values[0].dataValues;
+                        if(values[1]) szemelyadatok.szamok=values[1].dataValues;
+                        resolve(szemelyadatok);
+                    });
+                })
+            });
         },
 
     searchNumber:
