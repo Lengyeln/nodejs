@@ -7,6 +7,9 @@ const conif = require('node-console-input');
 
 db.initDb();
 
+
+
+
 var fuggvenyek = {
     add:
     //uj nevjegy felvitele
@@ -161,6 +164,39 @@ var fuggvenyek = {
             });
         },
 
+    /*nevjegy2:
+        function nevjegy2() {
+        return new Promise((resolve, reject)=>{
+            var szemelyadatok = [];
+            db.models.Adatok.findAll({
+                raw: true
+            }).then((selectedRow) => {
+                szemelyadatok = selectedRow.dataValues;
+                resolve(szemelyadatok);
+                console.log(szemelyadatok);
+            })
+        })
+        },*/
+
+    nevjegy2:
+            function nevjegy2(obj) {
+                var szemelyadatok = [];
+                db.models.Adatok.findAll({}).then((selectedRow) => {
+                    console.log(obj(selectedRow));
+                    szemelyadatok = (selectedRow).dataValues;
+                    //console.log(szemelyadatok);
+                    return szemelyadatok;
+                })
+            },
+
+  /*  getall:
+        function getall(cb){
+            db.models.Adatok.findAll().then(function (users) {
+                return cb(null, users);
+            }).catch(function(err) {
+                return cb(err);
+            })
+        }*/
 
     /*nevjegy:
         function nevjegy() {
@@ -242,6 +278,16 @@ var fuggvenyek = {
                 })
             });
         },
+
+    getall:
+        function getall(cb){
+                db.models.Adatok.findAll().then(function (users) {
+                    return cb(null, users);
+                }).catch(function(err) {
+                    return cb(err);
+                })
+        }
+
 
 }
 

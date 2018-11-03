@@ -144,6 +144,31 @@ module.exports = function (express, app, fuggvenyek, initDb) {
         fuggvenyek.nevjegy().then((adatok) =>{
             response.json(adatok);
         });
-    })
+    });
+
+
+    /*app.get('/nevjegy2', function(request,response){
+        fuggvenyek.nevjegy2().then((adatok) =>{
+            response.json(adatok);
+        });
+    });*/
+
+    app.get('/nevjegy2', function(req, res) {
+        fuggvenyek.nevjegy2(function(err, users) {
+            res.json(users);
+        });
+    });
+
+    app.get('/getall', function(req, res) {
+        fuggvenyek.getall(function(err, users) {
+            res.json(users);
+        });
+    });
+
+    /*app.get('/getall', function(req, res) {
+        fuggvenyek.getall().then((data)=>{
+            res.json(data);
+        });
+    });*/
 
 }
