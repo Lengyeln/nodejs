@@ -279,13 +279,20 @@ var fuggvenyek = {
             });
         },
 
-    getall:
+    /*getall:
         function getall(cb){
                 db.models.Adatok.findAll().then(function (users) {
                     return cb(null, users);
                 }).catch(function(err) {
                     return cb(err);
                 })
+        },*/
+
+    getall:
+        function getall(cb){
+            db.models.Adatok.findAll().then(function (users) {
+                return cb(null, users);
+            })
         }
 
 
