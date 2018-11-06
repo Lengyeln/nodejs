@@ -265,11 +265,12 @@ var fuggvenyek = {
 
     select:
     function select(cd){
-    db.models.Adatok.sequelize.query("SELECT * FROM `data` LEFT JOIN `families` ON `data`.`id` = `families`.`referencId` ORDER BY `data`.`nev`",  { type: Sequelize.QueryTypes.SELECT})
+    db.models.Adatok.sequelize.query("SELECT `data`.`id`, `data`.`nev`, `families`.`referencId`, `families`.`id` AS `familiesId`, `families`.`csaladtag` FROM `data` LEFT JOIN `families` ON `data`.`id` = `families`.`referencId` ORDER BY `data`.`nev`",  { type: Sequelize.QueryTypes.SELECT})
         .then(function (users) {
             return cd(null, users);
         })
-}
+    }
+
 }
 
 
