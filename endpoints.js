@@ -165,10 +165,10 @@ module.exports = function (express, app, fuggvenyek, initDb) {
         });
     });
 
-    /*app.get('/getall', function(req, res) {
-        fuggvenyek.getall().then((data)=>{
-            res.json(data);
+    app.get('/select', function(req, res) {
+        fuggvenyek.select(function(err, users) {
+            res.json(users);
         });
-    });*/
+    });
 
 }

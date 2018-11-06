@@ -4,10 +4,9 @@ var app = express();
 var db = require('./db');
 const fs = require('fs');
 const conif = require('node-console-input');
+const Sequelize = require('sequelize');
 
 db.initDb();
-
-
 
 
 var fuggvenyek = {
@@ -189,42 +188,6 @@ var fuggvenyek = {
                 })
             },
 
-  /*  getall:
-        function getall(cb){
-            db.models.Adatok.findAll().then(function (users) {
-                return cb(null, users);
-            }).catch(function(err) {
-                return cb(err);
-            })
-        }*/
-
-    /*nevjegy:
-        function nevjegy() {
-            return new Promise((resolve,reject)=>{
-                var szemelyadatok=[];
-                db.models.Adatok.findOne({
-                    limit: 5000
-                }).then((selectedRow) => {
-                    szemelyadatok=selectedRow.dataValues;
-                    var csaladPromise = db.models.Csalad.findOne({
-                        where: {referencId: selectedRow.dataValues.id},
-                        limit: 5000
-                    });
-                    var szamokPromise=db.models.Szamok.findOne({
-                        where: {referencId: selectedRow.dataValues.id},
-                        limit: 5000
-                    });
-                    Promise.all([csaladPromise,szamokPromise]).then((values)=>{
-                        ///console.log("VALUE",values[0]);
-                        if(values[0]) szemelyadatok.csaladtagok=values[0].dataValues;
-                        if(values[1]) szemelyadatok.szamok=values[1].dataValues;
-                        resolve(szemelyadatok);
-                    });
-                })
-            });
-        },*/
-    //
-
     nevjegy:
         function nevjegy() {
             return new Promise((resolve,reject)=>{
@@ -290,12 +253,24 @@ var fuggvenyek = {
 
     getall:
         function getall(cb){
-            db.models.Adatok.findAll().then(function (users) {
+            db.models.Adatok.findAll({
+                /*include:[{
+                    model: db.models.Szamok,
+                    where: { referenceId: Sequelize.col('data.id')}
+                }]*/
+            }).then(function (users) {
                 return cb(null, users);
             })
-        }
+        },
 
-
+    select:
+    function select(cd){
+    db.models.Adatok.sequelize.query("SELECT * FROM `data` LEFT JOIN `families` ON `data`.`id` = `families`.`referencId` ORDER BY `data`.`nev`",  { type: Sequelize.QueryTypes.SELECT})
+        .then(function (users) {
+            return cd(null, users);
+        })
 }
+}
+
 
 require('./endpoints')(express, app, fuggvenyek);
