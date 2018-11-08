@@ -269,86 +269,63 @@ var fuggvenyek = {
                 szam:
             }]
         }]
-
      */
+
     getall:
         function getall(cb){
             var promise1 = db.models.Adatok.findAll({
                 attributes: ['id', 'nev', 'cim']
             });
-            var promise2 = db.models.Szamok.findAll({
-                attributes: ['id', 'referencId', 'szam']
-            });
-            var promise3= db.models.Csalad.findAll({
+            var promise2 = db.models.Csalad.findAll({
                 attributes: ['id', 'referencId', 'csaladtag']
             });
-            Promise.all([promise1,promise2,promise3])
+            var promise3 = db.models.Szamok.findAll({
+                attributes: ['id', 'referencId', 'szam']
+            });
+            Promise.all([promise1, promise2, promise3])
                 .then(values => {
-                    var retVal=[];
-                    var p1=[];
-                    p1.push(promise1);
-                    var p2=[];
-                    p2.push(promise2);
-                    lodash.forEach(p1, function (value1) {
-                       var telo=[];
-                       var csalad=[];
-                       lodash.forEach(p2, value2 =>{
-                           if (value1.id==value2.referencId){
-                               telo.push(value2.szam);
-                           }
-                       })
-                        retVal.push([{
-                            nev: value1.nev,
-                            cim: value1.cim,
-                            id: value1.id,
-                           /* csaladtagok:[{
-                                id:,
-                                referencId:,
-                                csaladtag:,
-                            }],*/
-                            szamok:[{
-                                id: telo.id,
-                                referencId: telo.referencId,
-                                szam: telo.szam
-                            }]
-                        }])
-                    });
-
-                    //retVal.push(promise1, promise2, promise3);
-                    //retVal.push(promise1);
-                    /*var prom1=[];
-                    prom1.push(promise1);
-                    var prom2=[];
-                    prom2.push(promise2);
-                    values.forEach(a =>{
-                        var telo=[];
-                        var csaladtag=[];
-                        prom2.forEach(function(b){
-                            if(a.id===b.referencId){
-                                telo.push(b.szam);
+                    var retVal = [];
+                    lodash.forEach(values[0], function (datas) {
+                        var number = [];
+                        var family = [];
+                        lodash.forEach(values[1], families => {
+                            if (datas.id === families.referencId) {
+                                family.push([{
+                                    id: families.id,
+                                    referencId: families.referencId,
+                                    csaladtag: families.csaladtag
+                                }]);
+                                //family.push(families);
                             }
                         });
-                        /!*csalad.forEach(function(c){
-                            if(a.id==c.kulcs){
-                                csaladtag.push(c.tag);
+                        lodash.forEach(values[2], numbers => {
+                            if (datas.id === numbers.referencId) {
+                                number.push([{
+                                    id: numbers.id,
+                                    referencId: numbers.referencId,
+                                    szam: numbers.szam
+                                }]);
                             }
-                        })*!/
+                        });
                         retVal.push([{
-                            nev: a.nev,
-                            cim: a.cim,
-                            id: a.id,
-                           /!* csaladtagok:[{
-                                id:,
-                                referencId:,
-                                csaladtag:
-                        }],*!/
-                            szamok:[{
-                                id: telo.id,
-                                referencId: telo.referencId,
-                                szam: telo.szam
-                        }]
-                    }]);
-                    })*/
+                            nev: datas.nev,
+                            cim: datas.cim,
+                            id: datas.id,
+                            /*csaladtagok:[{
+                                id: family.id,
+                                referencId: family.referencId,
+                                csaladtag: family.csaladtag
+                            }],*/
+                            csaladtagok: family,
+                            szamok: number
+                           /* szamok: [{
+                                id: number.id,
+                                referencId: number.referencId,
+                                szam: number.szam
+                            }]*/
+                        }]);
+                    });
+                    //retVal.push(promise1);
                     return cb(null, retVal);
                 })
         },
