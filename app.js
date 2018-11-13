@@ -290,21 +290,20 @@ var fuggvenyek = {
                         var family = [];
                         lodash.forEach(values[1], families => {
                             if (datas.id === families.referencId) {
-                                family.push([{
+                                family.push({
                                     id: families.id,
                                     referencId: families.referencId,
                                     csaladtag: families.csaladtag
-                                }]);
-                                //family.push(families);
+                                });
                             }
                         });
                         lodash.forEach(values[2], numbers => {
                             if (datas.id === numbers.referencId) {
-                                number.push([{
+                                number.push({
                                     id: numbers.id,
                                     referencId: numbers.referencId,
                                     szam: numbers.szam
-                                }]);
+                                });
                             }
                         });
                         retVal.push([{
